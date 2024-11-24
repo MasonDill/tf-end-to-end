@@ -1,0 +1,6 @@
+{
+    "max_epochs": "100",
+    "save_period_epochs": "1",
+    "dropout": "0.5",
+    "img_height": "128"
+}

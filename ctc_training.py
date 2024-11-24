@@ -9,11 +9,12 @@ from primus import CTC_PriMuS
 import ctc_utils
 import ctc_model
 
-SAVE_PERIOD = 1
-IMG_HEIGHT = 128
-MAX_EPOCHS = 100
-DROPOUT = 0.5
-CONFIG_PATH = os.path.join(os.getcwd(),'config.json')
+MODEL_CONFIG_PATH = os.path.join(os.getcwd(),'model.json')
+model_parameters = json.load(open(MODEL_CONFIG_PATH))
+SAVE_PERIOD = int(model_parameters['save_period_epochs'])
+IMG_HEIGHT = int(model_parameters['img_height'])
+MAX_EPOCHS = int(model_parameters['max_epochs'])
+DROPOUT = float(model_parameters['dropout'])
 
 # Calculate the sample error rate (SER) of the model
 def validate(primus, params, sess, inputs, seq_len, rnn_keep_prob, decoded):
@@ -128,7 +129,8 @@ def train(corpus_path, set_path, voc_path, voc_type, model_path, validate_batche
     logging.info('Model saved to ' + mdl_path)
 
 if __name__ == '__main__':
-    configured_defaults = json.load(open(CONFIG_PATH))
+    APP_CONFIG_PATH = os.path.join(os.getcwd(),'config.json')
+    configured_defaults = json.load(open(APP_CONFIG_PATH))
 
     parser = argparse.ArgumentParser(description='Train model.')
     parser.add_argument('-corpus', dest='corpus', type=str, required=False, help='Path to the corpus.', default=configured_defaults['corpus_path'])
